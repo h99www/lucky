@@ -1,0 +1,44 @@
+package com.greedy.lucky.common.paging;
+
+public class Pagenation {
+
+	public static SelectCriteria getSelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount) {
+		
+		return getSelectCriteria(pageNo, totalCount, limit, buttonAmount, null, null);
+	}
+	
+	public static SelectCriteria getSelectCriteria(int pageNo, int totalCount, int limit, int buttonAmount, String searchCondition, String searchValue) {
+
+		
+		int maxPage;
+		int startPage;
+		int endPage;
+		int startRow;
+		int endRow;
+		
+		maxPage = (int) Math.ceil((double) totalCount / limit);
+		
+		endPage = ((int) Math.ceil((double) pageNo /  buttonAmount) ) * buttonAmount;
+		
+		startPage = endPage - buttonAmount + 1;
+		
+		if(maxPage < endPage) {
+			endPage = maxPage;
+		}
+		
+		if(maxPage == 0 && endPage == 0) {
+			maxPage = startPage;
+			endPage = startPage;
+		}
+		
+		endRow = pageNo * limit;
+		startRow = endRow - limit + 1;
+		
+		SelectCriteria selectCriteria = new SelectCriteria(pageNo, totalCount, limit, buttonAmount ,maxPage, startPage, endPage, startRow, endRow, searchCondition, searchValue);
+
+		
+		return selectCriteria;
+	}
+	
+	
+}
