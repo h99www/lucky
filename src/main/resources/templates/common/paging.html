@@ -23,7 +23,6 @@
 		<button id="prevPage"><</button>
 	</th:block>
 	<!-- 페이징 버튼 자리 -->
-	[[${selectCriteria.startPage}]]
 	<th:block th:each="num : ${ #numbers.sequence(selectCriteria.startPage, selectCriteria.endPage) }">
 		<th:block th:if="${ selectCriteria.pageNo == num }">
 			<button th:text="${ num }" disabled></button>
