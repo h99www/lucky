@@ -3,7 +3,7 @@
 
 /*배경 화면 설정*/
 body {
-	background:url("image/city1.PNG") no-repeat;
+	background:url("../image/city1.PNG") no-repeat;
 	background-size:cover;
 	min-height:800px;
 	

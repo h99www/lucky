@@ -8,7 +8,9 @@ import com.greedy.lucky.common.paging.SelectCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -21,8 +23,9 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<BoardDTO> findBoardList(SearchInfoDTO info) {
-        /* 현재페이지 처리 >> currentPage null일때 1로 처리 */
+    public Map<String, Object> findBoardList(SearchInfoDTO info) {
+        Map<String, Object> boardListInfo = new HashMap<>();
+
         int currentPage= Integer.parseInt(info.getCurrentPage());
         String searchCondition = info.getSearchCondition();
         String searchValue = info.getSearchValue();
@@ -35,7 +38,10 @@ public class BoardServiceImpl implements BoardService {
             pageNo = currentPage;
         }
         SelectCriteria selectCriteria = Pagenation.getSelectCriteria(pageNo,totalCount,limit,buttonAmount,searchCondition,searchValue);
+        List<BoardDTO> boardList = mapper.findBoardList(selectCriteria);
+        boardListInfo.put("boardList", boardList);
+        boardListInfo.put("selectCriteria", selectCriteria);
 
-        return mapper.findBoardList(selectCriteria);
+        return boardListInfo;
     }
 }
