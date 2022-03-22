@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
@@ -47,17 +48,18 @@
             <input type="search" id="searchValue" name="searchValue" value="">
             
             <button type="submit">검색하기</button>
-            <th:block th:if="${  session.loginMember != null }">
-                <input type="button" id="writeBoard">작성하기</input>
+            <th:block sec:authorize="isAuthenticated()">
+                <input type="button" id="writeBoard" value="작성하기">
             </th:block>
         </form>
     </div>
 </div>
 <script>
-    const $writeBoard = document.getElementById("writeBoard");
-   
-    $writeBoard.onclick = function() {
-        location.href = "/board/regitst";
+    if(document.getElementById("writeBoard")) {
+        const $writeBoard = document.getElementById("writeBoard");
+        $writeBoard.onclick = function() {
+            location.href = "/board/regist";
+        }
     }
     
     

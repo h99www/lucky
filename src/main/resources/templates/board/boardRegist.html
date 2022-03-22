@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+    <div th:include="/common/header.html"></div>
+    <div class="outer outer-notice-insert">
+        <br>
+        <h2 align="center">게시판 작성</h2>
+        <div class="table-area">
+            <form action="/board/regist" method="post">
+                <table>
+                    <tr>
+                        <td>분야</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select name="category">
+                                <option value="20">운동</option>
+                                <option value="30">등산</option>
+                                <option value="40">게임</option>
+                                <option value="50">낚시</option>
+                                <option value="60">요리</option>
+                                <option value="70">기타</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>제목 </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><input type="text" name="title" style="width:400px;"></td>
+                    </tr>
+                    <tr>
+                        <td>내용 </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <textarea name="body" cols="60" rows="13" style="resize:none;"></textarea>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <div align="center">
+                    <input type="button" value="취소하기" onclick="location.href='/board/list'">
+                    <button type="submit">등록하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>                   <option value="10">공통</option>

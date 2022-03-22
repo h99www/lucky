@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,12 +38,24 @@ public class BoardController {
 
         List<BoardDTO> boardList = (List<BoardDTO>) boardListInfo.get("boardList");
         SelectCriteria selectCriteria = (SelectCriteria) boardListInfo.get("selectCriteria");
-        System.out.println(selectCriteria);System.out.println(selectCriteria);System.out.println(selectCriteria);System.out.println(selectCriteria);System.out.println(selectCriteria);System.out.println(selectCriteria);System.out.println(selectCriteria);System.out.println(selectCriteria);
 
         mv.addObject("intent", "/board/list");
         mv.addObject("boardList", (List<BoardDTO>) boardListInfo.get("boardList"));
         mv.addObject("selectCriteria", (SelectCriteria) boardListInfo.get("selectCriteria"));
         mv.setViewName("board/boardlist");
+
+        return mv;
+    }
+
+    @GetMapping("/regist")
+    public ModelAndView sendRegistForm(ModelAndView mv) {
+        mv.setViewName("board/boardRegist");
+
+        return mv;
+    }
+
+    @PostMapping("/regist")
+    public ModelAndView registBoard(ModelAndView mv) {
 
         return mv;
     }

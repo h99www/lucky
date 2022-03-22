@@ -1,6 +1,7 @@
 package com.greedy.lucky.board.model.dto;
 
 import com.greedy.lucky.member.model.dto.MemberDTO;
+import org.apache.ibatis.type.Alias;
 
 import java.sql.Date;
 

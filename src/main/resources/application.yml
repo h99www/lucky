@@ -13,3 +13,5 @@ spring:
 # mybatis config
 mybatis:
   mapper-locations: mappers/**/*.xml
+  config-location: classpath:mybatis/mybatis-config.xml
+
