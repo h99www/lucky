@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/board")
@@ -25,17 +26,22 @@ public class BoardController {
         this.service = service;
     }
 
-    @GetMapping("list")
+    @GetMapping("/list")
     public ModelAndView findBoardList(ModelAndView mv, HttpServletRequest request) {
         SearchInfoDTO info = new SearchInfoDTO();
         info.setCurrentPage(request.getParameter("currentPage"));
         info.setSearchValue(request.getParameter("searchValue"));
         info.setSearchCondition(request.getParameter("searchCondition"));
 
-        List<BoardDTO> boardList = service.findBoardList(info);
-        mv.addObject("boardList", boardList);
-        boardList.stream().forEach(System.out::println);
+        Map<String, Object> boardListInfo = service.findBoardList(info);
 
+        List<BoardDTO> boardList = (List<BoardDTO>) boardListInfo.get("boardList");
+        SelectCriteria selectCriteria = (SelectCriteria) boardListInfo.get("selectCriteria");
+        System.out.println(selectCriteria);System.out.println(selectCriteria);System.out.println(selectCriteria);System.out.println(selectCriteria);System.out.println(selectCriteria);System.out.println(selectCriteria);System.out.println(selectCriteria);System.out.println(selectCriteria);
+
+        mv.addObject("intent", "/board/list");
+        mv.addObject("boardList", (List<BoardDTO>) boardListInfo.get("boardList"));
+        mv.addObject("selectCriteria", (SelectCriteria) boardListInfo.get("selectCriteria"));
         mv.setViewName("board/boardlist");
 
         return mv;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greedy.lucky.member.model.dao.MemberDAO">
+    <resultMap id="memberResultMap" type="com.greedy.lucky.member.model.dto.MemberDTO">
+        <id property="memberNo" column="MEMBER_NO"/>
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberPwd" column="MEMBER_PWD"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="email" column="EMAIL"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="enrollDate" column="ENROLL_DATE"/>
+        <result property="memberRole" column="MEMBER_ROLE"/>
+        <result property="memberStatus" column="MEMBER_STATUS"/>
+    </resultMap>
+
+    <select id="findMemberById" resultMap="memberResultMap">
+        SELECT
+               A.MEMBER_NO
+             , A.MEMBER_ID
+             , A.MEMBER_PWD
+             , A.NICKNAME
+             , A.PHONE
+             , A.EMAIL
+             , A.ADDRESS
+             , A.ENROLL_DATE
+             , A.MEMBER_ROLE
+             , A.MEMBER_STATUS
+          FROM TBL_MEMBER A
+         WHERE A.MEMBER_ID = #{ memberId }
+    </select>
+</mapper>

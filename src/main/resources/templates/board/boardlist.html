@@ -31,8 +31,8 @@
             
         </table>
     </div>
-    
-    <!--<div th:include page="../common/paging.jsp"/>-->
+    <!-- 페이징 버튼 배치 -->
+    <div th:include="/common/paging.html"></div>
     
      <!--검색 폼 -->
     <div class="search-area" align="center">
@@ -47,13 +47,19 @@
             <input type="search" id="searchValue" name="searchValue" value="">
             
             <button type="submit">검색하기</button>
+            <th:block th:if="${  session.loginMember != null }">
+                <input type="button" id="writeBoard">작성하기</input>
+            </th:block>
         </form>
-        <div th:if="${  session.loginMember == null }">
-            <button id="writeBoard">작성하기</button>
-        </div>
     </div>
 </div>
 <script>
+    const $writeBoard = document.getElementById("writeBoard");
+   
+    $writeBoard.onclick = function() {
+        location.href = "/board/regitst";
+    }
+    
     
     if(document.getElementsByTagName("td")) {
         
