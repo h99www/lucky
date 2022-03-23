@@ -23,6 +23,7 @@
 
     <resultMap id="memberResultMap" type="com.greedy.lucky.member.model.dto.MemberDTO">
         <id property="nickname" column="NICKNAME"/>
+        <id property="memberRole" column="MEMBER_ROLE"/>
         <result property="memberName" column="MEMBER_NAME"/>
     </resultMap>
 
@@ -95,6 +96,9 @@
                           JOIN TBL_MEMBER D ON (C.BOARD_WRITER_MEMBER_NO = D.MEMBER_NO)
                           JOIN TBL_CATEGORY E ON (C.CATEGORY_CODE = E.CATEGORY_CODE)
                         <where>
+                            <if test="searchCondition == 'category'">
+                               E.CATEGORY_NAME LIKE '%' || #{ searchValue} || '%'
+                            </if>
                             <if test="searchCondition == 'writer'">
                                D.NICKNAME LIKE '%' || #{ searchValue} || '%'
                             </if>
@@ -114,4 +118,57 @@
                ) A
          WHERE RNUM >= #{ startRow }
     </select>
+    
+    <insert id="registBoard">
+        INSERT
+          INTO TBL_BOARD A
+        (
+          A.BOARD_NO
+        , A.BOARD_TYPE
+        , A.CATEGORY_CODE
+        , A.BOARD_TITLE
+        , A.BOARD_BODY
+        , A.BOARD_WRITER_MEMBER_NO
+        , A.CREATED_DATE
+        )
+        VALUES
+        (
+          SEQ_BOARD_NO.NEXTVAL
+        , 1
+        , #{ categoryCode }
+        , #{ boardTitle }
+        , #{ boardBody }
+        , #{ boardWriterMemberNo }
+        , SYSDATE
+        )
+    </insert>
+    
+    <select id="findMemberNoById" resultType="_int">
+        SELECT
+            A.MEMBER_NO
+        FROM TBL_MEMBER A
+        WHERE A.MEMBER_ID = #{ memberId }
+    </select>
+    
+    <select id="findBoardInfoByNo" resultMap="boardResultMap">
+        SELECT
+               A.BOARD_NO
+             , A.BOARD_TYPE
+             , A.CATEGORY_CODE
+             , A.BOARD_TITLE
+             , A.BOARD_BODY
+             , A.BOARD_WRITER_MEMBER_NO MEMBER_NO
+             , A.BOARD_COUNT
+             , A.CREATED_DATE
+             , A.MODIFIED_DATE
+             , A.BOARD_STATUS
+             , B.NICKNAME
+             , B.MEMBER_ROLE
+             , C.CATEGORY_NAME
+        FROM TBL_BOARD A
+        JOIN TBL_MEMBER B ON (A.BOARD_WRITER_MEMBER_NO = B.MEMBER_NO)
+        JOIN TBL_CATEGORY C ON (A.CATEGORY_CODE = C.CATEGORY_CODE)
+       WHERE A.BOARD_NO = #{ boardNo }
+    </select>
+    
 </mapper>

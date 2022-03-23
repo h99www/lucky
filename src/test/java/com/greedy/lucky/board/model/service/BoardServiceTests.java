@@ -25,29 +25,19 @@ public class BoardServiceTests {
     }
 
     @Test
-    public void 전체_게시판_게시글_조회용_서비스_메소드_테스드() {
+    public void 게시판_등록_테슽트() {
+        BoardDTO registBoard = new BoardDTO();
+        registBoard.setBoardType(1);
+        registBoard.setCategoryCode(10);
+        registBoard.setBoardTitle("안ㄴ여?");
+        registBoard.setBoardBody("안ㄴ여사에ㅛ");
+        registBoard.setBoardWriterMemberNo(1);
 
-        SelectCriteria selectCriteria = new SelectCriteria();
-        selectCriteria.setStartRow(1);
-        selectCriteria.setEndRow(10);
+        boolean result = boardService.registBoard(registBoard);
 
-//        List<BoardDTO> boardList = boardService.findBoardList(selectCriteria);
-
-    }
-
-    @Test
-    public void test() {
-
-        String testString = null;
-        if(testString != null) {
-            Integer result = Integer.parseInt(testString);
-        }
-        System.out.println("endTest");
-
-
+        assertNotNull(result);
 
     }
-
 
 
 

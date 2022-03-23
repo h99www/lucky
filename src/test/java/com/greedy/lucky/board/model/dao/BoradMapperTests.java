@@ -57,9 +57,35 @@ public class BoradMapperTests {
         assertEquals(123, result);
 
     }
+    @Test
+    public void 회원아이디로_회원번호_조회_테스트() {
+        int result = mapper.findMemberNoById("admin");
 
+        assertEquals(1, result);
+    }
 
+    @Test
+    public void 게시글_등록_확인_테스트() {
+        BoardDTO registBoard = new BoardDTO();
+        registBoard.setBoardType(1);
+        registBoard.setCategoryCode(10);
+        registBoard.setBoardTitle("안ㄴ여?");
+        registBoard.setBoardBody("안ㄴ여사에ㅛ");
+        registBoard.setBoardWriterMemberNo(1);
 
+        boolean result = mapper.registBoard(registBoard);
+
+        assertNotNull(result);
+
+    }
+
+    @Test
+    public void 게시글_조회_테스트() {
+        BoardDTO board = mapper.findBoardInfoByNo(120);
+
+        assertNotNull(board);
+        System.out.println("board = " + board);
+    }
 
 
 

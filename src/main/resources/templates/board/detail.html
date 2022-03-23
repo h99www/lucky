@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<meta charset="UTF-8">
+	<style>
+        .outer{
+            width:800px;
+            height:500px;
+            background:black;
+            color:white;
+            margin-left:auto;
+            margin-right:auto;
+            margin-top:50px;
+        }
+        td {
+            border:1px solid white;
+        }
+
+        .tableArea {
+            border:1px solid white;
+            width:800px;
+            height:350px;
+            margin-left:auto;
+            margin-right:auto;
+        }
+        #content {
+            height:230px;
+        }
+        .replyArea {
+            width:800px;
+            /* height:300px; */
+            color:white;
+            background:black;
+            margin-left:auto;
+            margin-right:auto;
+        }
+	</style>
+	<title>Insert title here</title>
+</head>
+<body>
+<div th:include="/common/header.html"></div>
+
+<div class="outer">
+	
+	<br>
+	
+	
+	<div align="center">
+		<h2 align="center">게시판 내용</h2>
+		<button onclick="location.href='/board/list'">메뉴로 돌아가기</button>
+		<!-- 이거 뭔가 수정해야함 -->
+		<!--<th:block-->
+		<!--		th:if="${ session.loginMember != null and session.loginMember.nickname == board.member.nickname }">-->
+		<!--</th:block>-->
+		<!--<th:block-->
+		<!--		th:if="${ session.loginMember != null and session.loginMember.nickname == board.writer.nickname-->
+		<!--					or session.loginMember.role == 'ROLE_ADMIN' }">-->
+		<!--</th:block>-->
+			<button onclick="location.href='/board/update?no=${ requestScope.board.no }'">수정하기</button>
+			<button onclick="location.href='/board/delete?no=${ requestScope.board.no }'">삭제하기</button>
+	</div>
+	<div class="tableArea">
+		<table align="center" width="800px">
+			<tr>
+				<td>글번호</td>
+				<td th:inline="text">[[${ board.boardNo }]]</td>
+				<td>분야 </td>
+				<td><span th:inline="text">[[${ board.category.categoryName }]]</span></td>
+				<td>제목 </td>
+				<td><span th:inline="text">[[${ board.boardTitle }]]</span></td>
+			</tr>
+			<tr>
+				<td>작성자 </td>
+				<td><span th:inline="text">[[${ board.member.nickname }]]</span></td>
+				<td>조회수 </td>
+				<td><span th:inline="text">[[${ board.boardCount }]]</span></td>
+				<td>작성일</td>
+				<td><span th:inline="text">[[${ board.createdDate }]]</span></td>
+			</tr>
+			<tr>
+				<td colspan="6">내용 </td>
+			</tr>
+			<tr>
+				<td colspan="6">
+					<p id="content" th:inline="text">[[${ board.boardBody }]]</p>
+				</td>
+			</tr>
+		</table>
+		<br>
+	</div>
+
+</div>
+
+<div class="replyArea">
+	<div class="replyWriteArea">
+		<table align="center">
+			<tr>
+				<td>댓글 작성</td>
+				<td><textArea rows="3" cols="80" id="replyContent"></textArea></td>
+				<td><button id="addReply">댓글 등록</button></td>
+			</tr>
+		</table>
+	</div>
+	<div id="replySelectArea">
+		<table id="replySelectTable" border="1" align="center">
+		</table>
+	</div>
+</div>
+</body>
+</html>

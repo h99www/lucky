@@ -14,5 +14,7 @@ public interface BoardService {
 
     Map<String, Object> findBoardList(SearchInfoDTO selectCriteria);
 
+    boolean registBoard(BoardDTO registBoard);
 
+    BoardDTO findBoardInfoByNo(int boardNo);
 }

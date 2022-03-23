@@ -18,7 +18,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <select name="category">
+                            <select name="categoryCode">
+                                <option value="10">공통</option>
                                 <option value="20">운동</option>
                                 <option value="30">등산</option>
                                 <option value="40">게임</option>
@@ -32,16 +33,17 @@
                         <td>제목 </td>
                     </tr>
                     <tr>
-                        <td colspan="3"><input type="text" name="title" style="width:400px;"></td>
+                        <td colspan="3"><input type="text" name="boardTitle" style="width:400px;"></td>
                     </tr>
                     <tr>
                         <td>내용 </td>
                     </tr>
                     <tr>
                         <td colspan="3">
-                            <textarea name="body" cols="60" rows="13" style="resize:none;"></textarea>
+                            <textarea name="boardBody" cols="60" rows="13" style="resize:none;"></textarea>
                         </td>
                     </tr>
+                    <input type="hidden" name="boardType" value="1">
                 </table>
                 <br>
                 <div align="center">
@@ -52,4 +54,4 @@
         </div>
     </div>
 </body>
-</html>                   <option value="10">공통</option>
+</html>

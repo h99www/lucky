@@ -13,4 +13,10 @@ public interface BoardMapper {
     List<BoardDTO> findBoardList(SelectCriteria selectCriteria);
 
     int findBoardListCount(SearchInfoDTO info);
+
+    boolean registBoard(BoardDTO registBoard);
+
+    int findMemberNoById(String memberId);
+
+    BoardDTO findBoardInfoByNo(int boardNo);
 }

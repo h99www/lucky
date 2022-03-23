@@ -44,4 +44,18 @@ public class BoardServiceImpl implements BoardService {
 
         return boardListInfo;
     }
+
+    @Override
+    public boolean registBoard(BoardDTO registBoard) {
+        int memberNo = mapper.findMemberNoById(registBoard.getMember().getMemberId());
+        registBoard.setBoardWriterMemberNo(memberNo);
+
+        return mapper.registBoard(registBoard);
+    }
+
+    @Override
+    public BoardDTO findBoardInfoByNo(int boardNo) {
+
+        return mapper.findBoardInfoByNo(boardNo);
+    }
 }
