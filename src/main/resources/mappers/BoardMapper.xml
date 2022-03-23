@@ -171,4 +171,37 @@
        WHERE A.BOARD_NO = #{ boardNo }
     </select>
     
+    <update id="increaseBoardCount">
+        UPDATE
+               TBL_BOARD A
+           SET A.BOARD_COUNT = (SELECT B.BOARD_COUNT + 1
+                                  FROM TBL_BOARD B
+                                 WHERE B.BOARD_NO = #{ boardNo }
+                               )
+         WHERE A.BOARD_NO = #{ boardNo }
+    </update>
+    
+    <update id="modifyBoard">
+        UPDATE
+               TBL_BOARD A
+           SET A.CATEGORY_CODE = #{ category_code }
+             , A.BOARD_TITLE = #{ boardTitle }
+             , A.BOARD_BODY = #{ boardBody }
+             , A.BOARD_WRITER_MEMBER_NO = #{ boardWriterMemberNo }
+             , A.MODIFIED_DATE = SYSDATE
+         WHERE A.BOARD_NO = #{ boardNo }
+    </update>
+    
+    
+    <update id="removeBoard">
+        UPDATE
+               TBL_BOARD A
+           SET A.BOARD_STATUS = 'N'
+         WHERE A.BOARD_NO = #{ boardNo }
+    </update>
+    
+    
+    
+    
+    
 </mapper>

@@ -7,6 +7,7 @@ import com.greedy.lucky.common.paging.Pagenation;
 import com.greedy.lucky.common.paging.SelectCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,9 +54,26 @@ public class BoardServiceImpl implements BoardService {
         return mapper.registBoard(registBoard);
     }
 
+    @Transactional
     @Override
     public BoardDTO findBoardInfoByNo(int boardNo) {
 
+        mapper.increaseBoardCount(boardNo);
+
         return mapper.findBoardInfoByNo(boardNo);
     }
+
+    @Override
+    public boolean removeBoard(int boardNo) {
+
+        return mapper.removeBoard(boardNo);
+    }
+
+    @Override
+    public boolean modifyBoard(BoardDTO board) {
+
+        return mapper.modifyBoard(board);
+    }
+
+
 }

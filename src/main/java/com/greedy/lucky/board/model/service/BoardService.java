@@ -17,4 +17,10 @@ public interface BoardService {
     boolean registBoard(BoardDTO registBoard);
 
     BoardDTO findBoardInfoByNo(int boardNo);
+
+    boolean removeBoard(int boardNo);
+
+    boolean modifyBoard(BoardDTO board);
+
+
 }

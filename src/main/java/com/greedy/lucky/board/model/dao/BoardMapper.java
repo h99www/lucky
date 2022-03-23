@@ -19,4 +19,10 @@ public interface BoardMapper {
     int findMemberNoById(String memberId);
 
     BoardDTO findBoardInfoByNo(int boardNo);
+
+    void increaseBoardCount(int boardNo);
+
+    boolean removeBoard(int boardNo);
+
+    boolean modifyBoard(BoardDTO board);
 }

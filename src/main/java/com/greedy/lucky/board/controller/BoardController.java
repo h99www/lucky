@@ -82,5 +82,28 @@ public class BoardController {
         return mv;
     }
 
+    @GetMapping("/modify/{boardNo}")
+    public ModelAndView sendModifyView(ModelAndView mv, @PathVariable int boardNo) {
+        BoardDTO board = service.findBoardInfoByNo(boardNo);
 
+        mv.addObject("board", board);
+        mv.setViewName("board/modify");
+
+        return mv;
+    }
+
+    @PostMapping("/modify")
+    public String modifyBoard(ModelAndView mv, @ModelAttribute BoardDTO board) {
+        service.modifyBoard(board);
+
+        return "redirect:/board/list";
+    }
+
+    @GetMapping("/remove/{boardNo}")
+    public String removeBoard(@PathVariable int boardNo) {
+
+        service.removeBoard(boardNo);
+
+        return "redirect:/board/list";
+    }
 }
