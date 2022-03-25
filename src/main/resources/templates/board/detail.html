@@ -56,14 +56,14 @@
 		<!--		th:if="${ session.loginMember != null and session.loginMember.nickname == board.writer.nickname-->
 		<!--					or session.loginMember.role == 'ROLE_ADMIN' }">-->
 		<!--</th:block>-->
-			<button onclick="location.href='/board/update?no=${ requestScope.board.no }'">수정하기</button>
-			<button onclick="location.href='/board/delete?no=${ requestScope.board.no }'">삭제하기</button>
+			<button id="modify">수정하기</button>
+			<button id="remove">삭제하기</button>
 	</div>
 	<div class="tableArea">
 		<table align="center" width="800px">
 			<tr>
 				<td>글번호</td>
-				<td th:inline="text">[[${ board.boardNo }]]</td>
+				<td th:inline="text" id="boardNo">[[${ board.boardNo }]]</td>
 				<td>분야 </td>
 				<td><span th:inline="text">[[${ board.category.categoryName }]]</span></td>
 				<td>제목 </td>
@@ -106,5 +106,24 @@
 		</table>
 	</div>
 </div>
+
+<script th:inline="javascript">
+	const $boardNo = document.getElementById("boardNo").innerText;
+    console.log($boardNo);
+    if(document.getElementById("remove")) {
+        const $delete = document.getElementById("remove");
+        $delete.onclick = function() {
+            location.href = "/board/remove/" + $boardNo;
+        }
+    }
+
+    if(document.getElementById("modify")) {
+        const $modify = document.getElementById("modify");
+        $modify.onclick = function() {
+            location.href = "/board/modify/" + $boardNo;
+        }
+    }
+    
+</script>
 </body>
 </html>

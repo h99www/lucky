@@ -184,10 +184,9 @@
     <update id="modifyBoard">
         UPDATE
                TBL_BOARD A
-           SET A.CATEGORY_CODE = #{ category_code }
+           SET A.CATEGORY_CODE = #{ categoryCode }
              , A.BOARD_TITLE = #{ boardTitle }
              , A.BOARD_BODY = #{ boardBody }
-             , A.BOARD_WRITER_MEMBER_NO = #{ boardWriterMemberNo }
              , A.MODIFIED_DATE = SYSDATE
          WHERE A.BOARD_NO = #{ boardNo }
     </update>

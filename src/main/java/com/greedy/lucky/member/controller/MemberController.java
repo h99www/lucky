@@ -10,9 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/member")
 public class MemberController {
 
-    @GetMapping("/login")
-    public void login() {}
-
     @GetMapping("/regist")
     public ModelAndView sendRegistView() {
 

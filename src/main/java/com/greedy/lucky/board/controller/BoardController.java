@@ -89,11 +89,14 @@ public class BoardController {
         mv.addObject("board", board);
         mv.setViewName("board/modify");
 
+        System.out.println("board/modify/getmapping");
+        System.out.println("board = " + board);
         return mv;
     }
 
     @PostMapping("/modify")
     public String modifyBoard(ModelAndView mv, @ModelAttribute BoardDTO board) {
+
         service.modifyBoard(board);
 
         return "redirect:/board/list";
