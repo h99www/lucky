@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greedy.lucky.notice.model.dao.NoticeMapper">
+    <resultMap id="noticeResultMap" type="NoticeDTO">
+        <id property="noticeNo" column="NOTICE_NO"/>
+        <result property="noticeTitle" column="NOTICE_TITLE"/>
+        <result property="noticeBody" column="NOTICE_BODY"/>
+        <result property="noticeWriterMemberNo" column="NOTICE_WRITER_MEMBER_NO"/>
+        <result property="noticeCount" column="NOTICE_COUNT"/>
+        <result property="createdDate" column="CREATED_DATE"/>
+        <result property="noticeStatus" column="NOTICE_STATUS"/>
+        
+        <association property="member" resultMap="memberResultMap"/>
+    </resultMap>
+    
+    <resultMap id="memberResultMap" type="MemberDTO">
+        <id property="memberNo" column="MEMBER_NO"/>
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="memberPwd" column="MEMBER_PWD"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="email" column="EMAIL"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="enrollDate" column="ENROLL_DATE"/>
+        <result property="memberRole" column="MEMBER_ROLE"/>
+        <result property="memberStatus" column="MEMBER_STATUS"/>
+    </resultMap>
+    
+    <select id="findNoticeListCount" resultType="_int">
+        SELECT
+               COUNT(*)
+          FROM TBL_NOTICE A
+          JOIN TBL_MEMBER B ON (A.NOTICE_WRITER_MEMBER_NO = B.MEMBER_NO)
+        <where>
+            <if test="searchCondition == 'writer'">
+               B.NICKNAME LIKE '%' || #{ searchValue } || '%'
+            </if>
+            <if test="searchCondition == 'body'">
+               A.NOTICE_BODY LIKE '%' || #{ searchValue } || '%'
+            </if>
+            <if test="searchCondition == 'title'">
+               A.NOTICE_TITLE LIKE '%' || #{ searchValue } || '%'
+            </if>
+           AND A.NOTICE_STATUS = 'Y'
+        </where>
+    </select>
+    
+    <select id="findNoticeList" resultMap="noticeResultMap" parameterType="com.greedy.lucky.common.paging.SelectCriteria">
+        SELECT
+               RNUM
+             , A.NOTICE_NO
+             , A.NOTICE_TITLE
+             , A.NOTICE_BODY
+             , A.NOTICE_WRITER_MEMBER_NO
+             , A.NOTICE_COUNT
+             , A.NICKNAME
+          FROM (SELECT ROWNUM RNUM
+                     , B.NOTICE_NO
+                     , B.NOTICE_TITLE
+                     , B.NOTICE_BODY
+                     , B.NOTICE_WRITER_MEMBER_NO
+                     , B.NOTICE_COUNT
+                     , B.NICKNAME
+                  FROM (SELECT C.NOTICE_NO
+                             , C.NOTICE_TITLE
+                             , C.NOTICE_BODY
+                             , C.NOTICE_WRITER_MEMBER_NO
+                             , C.NOTICE_COUNT
+                             , D.NICKNAME
+                          FROM TBL_NOTICE C
+                          JOIN TBL_MEMBER D ON (C.NOTICE_WRITER_MEMBER_NO = D.MEMBER_NO)
+                          <where>
+                                <if test="searchCondition == 'writer'">
+                               D.NICKNAME LIKE '%' || #{searchValue} || '%'
+                                </if>
+                                <if test="searchCondition == 'body'">
+                               C.NOTICE_BODY LIKE '%' || #{searchValue} || '%'
+                                </if>
+                                <if test="searchCondition == 'title'">
+                               C.NOTICE_TITLE LIKE '%' || #{searchValue} || '%'
+                                </if>
+                           AND C.NOTICE_STATUS = 'Y'
+                           </where>
+                         ORDER BY C.NOTICE_NO DESC
+                       ) B
+                <![CDATA[
+                 WHERE ROWNUM <= #{ endRow }
+                ]]>
+               ) A
+         WHERE RNUM >= #{ startRow }
+    </select>
+    
+    <select id="findNoticeDetail" resultMap="noticeResultMap" parameterType="NoticeDTO">
+        SELECT
+               A.NOTICE_NO
+             , A.NOTICE_TITLE
+             , A.NOTICE_BODY
+             , A.NOTICE_COUNT
+             , A.CREATED_DATE
+             , A.NOTICE_WRITER_MEMBER_NO
+             , B.MEMBER_NO
+             , B.MEMBER_ID
+             , B.NICKNAME
+          FROM TBL_NOTICE A
+          JOIN TBL_MEMBER B ON (A.NOTICE_WRITER_MEMBER_NO = B.MEMBER_NO)
+         WHERE A.NOTICE_NO = #{ noticeNo }
+           AND A.NOTICE_STATUS = 'Y'
+    </select>
+    
+    <insert id="registNoitce">
+        <selectKey resultType="_int" keyProperty="noticeNo" order="AFTER">
+            SELECT SEQ_NOTICE_NO.CURRVAL
+             FROM DUAL
+        </selectKey>
+        INSERT
+        INTO TBL_NOTICE A
+            (
+          A.NOTICE_NO
+        , A.NOTICE_TITLE
+        , A.NOTICE_BODY
+        , A.NOTICE_WRITER_MEMBER_NO
+        , A.NOTICE_COUNT
+        , A.CREATED_DATE
+        , A.NOTICE_STATUS
+        )
+        VALUES
+        (
+          SEQ_NOTICE_NO.NEXTVAL
+        , #{ noticeTitle }
+        , #{ noticeBody }
+        , #{ noticeWriterMemberNo }
+        , 0
+        , SYSDATE
+        , 'Y'
+        )
+    </insert>
+    
+    <update id="increaseNoticeCount">
+        UPDATE
+               TBL_NOTICE A
+           SET A.NOTICE_COUNT = (SELECT B.NOTICE_COUNT + 1
+                                   FROM TBL_NOTICE B
+                                  WHERE B.NOTICE_NO = #{ noticeNo }
+                                 )
+         WHERE A.NOTICE_NO = #{ noticeNo }
+    </update>
+    
+    <update id="modifyNotice">
+        UPDATE
+               TBL_NOTICE A
+           SET A.NOTICE_TITLE = #{ noticeTitle }
+             , A.NOTICE_BODY = #{ noticeBody }
+         WHERE A.NOTICE_NO = #{ noticeNo }
+    </update>
+    
+    <delete id="removeNotice">
+        DELETE
+          FROM TBL_NOTICE A
+         WHERE A.NOTICE_NO = #{ noticeNo }
+    </delete>
+    
+</mapper>
+

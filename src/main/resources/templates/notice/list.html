@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<body>
+<div th:include="/common/header.html"></div>
+
+<div class="outer outer-notice-list">
+	<br>
+	<h2 align="center">공지사항</h2>
+	<div class="table-area">
+		<table align="center" id="listArea">
+			<tr>
+				<th>글번호</th>
+				<th width="300px">글제목</th>
+				<th width="100px">작성자</th>
+				<th>조회수</th>
+				<th width="100px">작성일</th>
+			</tr>
+			<tr th:each="notice : ${ listInfo.noticeList }" >
+				<td th:text="${ notice.noticeNo }"/></td>
+				<td th:text="${ notice.noticeTitle }"/></td>
+				<td th:text="${ notice.member.nickname }"/></td>
+				<td th:text="${ notice.noticeCount }"/></td>
+				<td th:text="${ notice.createdDate }"/></td>
+			</tr>
+		</table>
+	</div>
+	<div th:include="/common/paging.html"></div>
+	<div class="search-area" align="center">
+		<form id="noticeSearchForm" action="/notice/list" method="get" style="display:inline-block">
+			<input type="hidden" name="currentPage" value="1">
+			<select id="searchCondition" name="searchCondition">
+				<option value="writer" >작성자</option>
+				<option value="title" >제목</option>
+				<option value="content">내용</option>
+			</select>
+			<input type="search" id="searchValue" name="searchValue">
+		　	<button type="submit">검색하기</button>
+		</form>
+		
+		<!-- 관리자인 경우에만 작성하기 버튼이 보여짐 -->
+		
+		<th:block th:if="${ session.loginMember != null}">
+			<th:block th:if="${ session.loginMember.role == 'ROLE_ADMIN'}">
+				<button id="writeNotice">작성하기</button>
+			</th:block>
+		</th:block>
+	</div>
+</div>
+
+<script>
+    if(document.getElementsByTagName("td")) {
+        const $tds = document.getElementsByTagName("td");
+        for(let i = 0; i < $tds.length; i++) {
+
+            $tds[i].onmouseenter = function() {
+                this.parentNode.style.backgroundColor = "orangered";
+                this.parentNode.style.cursor = "pointer";
+            }
+
+            $tds[i].onmouseout = function() {
+                this.parentNode.style.backgroundColor = "black";
+            }
+
+            $tds[i].onclick = function() {
+                /* 게시물 번호까지 알아왔으니 이제 상세보기는 할 수 있겠지? */
+                const no = this.parentNode.children[0].innerText;
+                location.href = "/notice/detail/no=" + no;
+            }
+        }
+    }
+</script>
+</body>
+</html>

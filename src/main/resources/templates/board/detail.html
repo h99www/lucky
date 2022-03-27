@@ -41,23 +41,20 @@
 <div th:include="/common/header.html"></div>
 
 <div class="outer">
-	
 	<br>
-	
-	
 	<div align="center">
 		<h2 align="center">게시판 내용</h2>
 		<button onclick="location.href='/board/list'">메뉴로 돌아가기</button>
-		<!-- 이거 뭔가 수정해야함 -->
-		<!--<th:block-->
-		<!--		th:if="${ session.loginMember != null and session.loginMember.nickname == board.member.nickname }">-->
-		<!--</th:block>-->
-		<!--<th:block-->
-		<!--		th:if="${ session.loginMember != null and session.loginMember.nickname == board.writer.nickname-->
-		<!--					or session.loginMember.role == 'ROLE_ADMIN' }">-->
-		<!--</th:block>-->
-			<button id="modify">수정하기</button>
-			<button id="remove">삭제하기</button>
+		<th:block th:if="${ session.loginMember != null}">
+			<th:block th:if="${ session.loginMember.nickname == board.member.nickname}">
+				<button id="modify">수정하기</button>
+			</th:block>
+		</th:block>
+		<th:block th:if="${ session.loginMember != null}">
+			<th:block th:if="${ session.loginMember.nickname == board.member.nickname or session.loginMember.role == 'ROLE_ADMIN'}">
+				<button id="remove">삭제하기</button>
+			</th:block>
+		</th:block>
 	</div>
 	<div class="tableArea">
 		<table align="center" width="800px">
