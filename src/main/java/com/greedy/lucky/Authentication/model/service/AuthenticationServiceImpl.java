@@ -41,20 +41,3 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new CustomUser(member, authorities);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -29,9 +29,9 @@ public class MemberController {
     @RequestMapping("/session")
     public ModelAndView loginMainView(ModelAndView mv, @AuthenticationPrincipal CustomUser user) {
         MemberDTO loginMember = service.findMemberById(user.getUsername());
-
+        System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);
         mv.addObject("loginMember", loginMember);
-        mv.setViewName("main/mainpage");
+        mv.setViewName("redirect:/");
 
         return mv;
     }

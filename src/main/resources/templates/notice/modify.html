@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+</head>
+<body>
+<div th:include="/common/header.html"></div>
+<div class="outer outer-notice-insert">
+	<br>
+	<h2 align="center">공지 사항 수정</h2>
+	<div class="table-area">
+		<form action="/notice/modify" method="post">
+			<table>
+				<tr>
+					<td>제목 </td>
+					<td><input type="text" size="50" name="noticeTitle" th:value="${ notice.noticeTitle }"></td>
+				</tr>
+				<tr>
+					<td>작성자 </td>
+					<td th:inline="text">[[${ notice.member.nickname }]]</td>
+				</tr>
+				<tr>
+					<td>내용 </td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<textarea name="noticeBody" cols="60" rows="15" style="resize:none;" th:inline="text">[[${ notice.noticeBody}]]</textarea>
+					</td>
+				</tr>
+			</table>
+			<br>
+			<div align="center">
+				<input type="button" id="backtolist" value="취소">
+				<button type="submit">수정하기</button>
+			</div>
+			<input type="hidden" id="noticeNo" name="noticeNo" th:value="${ notice.noticeNo }">
+		
+		</form>
+	</div>
+</div>
+<script>
+	if(document.getElementById("backtolist")) {
+        const $backtolist = document.getElementById("backtolist");
+        const $noticeNo = document.getElementById("noticeNo").value;
+        
+        $backtolist.onclick = function() {
+            location.href = "/notice/detail/" + $noticeNo;
+        }
+        
+    }
+    
+</script>
+</body>
+</html>
