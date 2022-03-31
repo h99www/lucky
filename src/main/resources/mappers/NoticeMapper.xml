@@ -130,7 +130,7 @@
           SEQ_NOTICE_NO.NEXTVAL
         , #{ noticeTitle }
         , #{ noticeBody }
-        , #{ noticeWriterMemberNo }
+        , #{member.memberNo}
         , 0
         , SYSDATE
         , 'Y'

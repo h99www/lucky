@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes("loginMember")
 public class MemberController {
 
     private MemberService service;
@@ -27,10 +27,9 @@ public class MemberController {
     }
         
     @RequestMapping("/session")
-    public ModelAndView loginMainView(ModelAndView mv, @AuthenticationPrincipal CustomUser user) {
+    public ModelAndView loginMainView(ModelAndView mv, @AuthenticationPrincipal CustomUser user, HttpSession session) {
         MemberDTO loginMember = service.findMemberById(user.getUsername());
-        System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);System.out.println("loginMember = " + loginMember);
-        mv.addObject("loginMember", loginMember);
+        session.setAttribute("loginMember", loginMember);
         mv.setViewName("redirect:/");
 
         return mv;

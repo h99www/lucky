@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -72,8 +73,10 @@ public class BoardController {
     }
 
     @GetMapping("/detail/{boardNo}")
-    public ModelAndView findBoardDetail(ModelAndView mv, @PathVariable int boardNo) {
-
+    public ModelAndView findBoardDetail(ModelAndView mv, @PathVariable int boardNo
+    , HttpSession session) {
+        MemberDTO member = (MemberDTO) session.getAttribute("loginMember");
+        System.out.println("member = " + member);System.out.println("member = " + member);System.out.println("member = " + member);System.out.println("member = " + member);System.out.println("member = " + member);
         BoardDTO board = service.findBoardInfoByNo(boardNo);
 
         mv.addObject("board", board);

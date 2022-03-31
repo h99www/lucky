@@ -1,6 +1,7 @@
 package com.greedy.lucky.notice.controller;
 
 import com.greedy.lucky.board.model.dto.SearchInfoDTO;
+import com.greedy.lucky.member.model.dto.MemberDTO;
 import com.greedy.lucky.notice.model.dto.NoticeDTO;
 import com.greedy.lucky.notice.model.dto.NoticeListDTO;
 import com.greedy.lucky.notice.model.service.NoticeService;
@@ -85,7 +86,12 @@ public class NoticeController {
     }
 
     @PostMapping("/regist")
-    public String registNotice(@ModelAttribute NoticeDTO notice) {
+    public String registNotice(@ModelAttribute NoticeDTO notice, @ModelAttribute MemberDTO member) {
+
+        notice.setMember(member);
+        /* notice regist  */
+        service.registNotice(notice);
+        
 
         return REDIRECT_NOTICE_LIST_VIEW;
     }
