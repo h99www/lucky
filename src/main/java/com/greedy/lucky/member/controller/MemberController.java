@@ -1,22 +1,22 @@
 package com.greedy.lucky.member.controller;
 
 import com.greedy.lucky.Authentication.model.dto.CustomUser;
+import com.greedy.lucky.common.view.View;
 import com.greedy.lucky.member.model.dto.MemberDTO;
 import com.greedy.lucky.member.model.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/member")
+@RequestMapping("/member/*")
 public class MemberController {
 
     private MemberService service;
@@ -27,26 +27,24 @@ public class MemberController {
     }
         
     @RequestMapping("/session")
-    public ModelAndView loginMainView(ModelAndView mv, @AuthenticationPrincipal CustomUser user, HttpSession session) {
+    public String loginMainView(@AuthenticationPrincipal CustomUser user, HttpSession session) {
         MemberDTO loginMember = service.findMemberById(user.getUsername());
         session.setAttribute("loginMember", loginMember);
-        mv.setViewName("redirect:/");
 
-        return mv;
+        return "redirect:/";
     }
 
     @GetMapping("/regist")
     public ModelAndView sendRegistView() {
 
-        return new ModelAndView("/member/registForm");
+        return new ModelAndView("/member/regist");
     }
 
     @PostMapping("/regist")
-    public ModelAndView registMember(ModelAndView mv) {
+    public String registMember(@ModelAttribute MemberDTO member) {
+        service.registMember(member);
 
-        mv.setViewName("redirect:/");
-
-        return mv;
+        return "redirect:/";
     }
 
     @GetMapping("/modify")
@@ -60,6 +58,18 @@ public class MemberController {
         return new ModelAndView("/member/modifyForm");
     }
 
+    @GetMapping(value = "/duplication/{memberId}", produces="text/plain; charset=UTF-8")
+    @ResponseBody
+    public String duplicationIdCheck(ModelAndView mv, @PathVariable String memberId) {
 
+        String resultMessage = "중복아님";
+
+        /* 아이디가 조회되면 true 반환 > 중복이라는 의미 */
+        if(service.duplicationCheckId(memberId)) {
+            resultMessage = "중복";
+        }
+
+        return resultMessage;
+    }
 
 }

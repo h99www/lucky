@@ -3,6 +3,7 @@ package com.greedy.lucky.board.model.dao;
 import com.greedy.lucky.board.model.dto.BoardDTO;
 import com.greedy.lucky.board.model.dto.SearchInfoDTO;
 import com.greedy.lucky.common.paging.SelectCriteria;
+import com.greedy.lucky.config.JsonView;
 import com.greedy.lucky.config.LuckyApplication;
 import com.greedy.lucky.config.MybatisConfig;
 import jdk.swing.interop.SwingInterOpUtils;

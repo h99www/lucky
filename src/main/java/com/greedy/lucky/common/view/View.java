@@ -1,7 +1,10 @@
 package com.greedy.lucky.common.view;
 
-public class View {
+public interface View {
     public static final String REDIRECT = "redirect:";
+    public static final String REDIRECT_MAIN_VIEW = REDIRECT + "/";
+
+
 
     /* notice view */
     public static final String NOTICE_REGIST_VIEW = "/notice/regist";

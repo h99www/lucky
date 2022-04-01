@@ -1,6 +1,7 @@
 package com.greedy.lucky.notice.controller;
 
 import com.greedy.lucky.board.model.dto.SearchInfoDTO;
+import com.greedy.lucky.common.view.View;
 import com.greedy.lucky.member.model.dto.MemberDTO;
 import com.greedy.lucky.notice.model.dto.NoticeDTO;
 import com.greedy.lucky.notice.model.dto.NoticeListDTO;
@@ -11,11 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
-import static com.greedy.lucky.common.view.View.*;
-
 @Controller
 @RequestMapping("/notice")
-public class NoticeController {
+public class NoticeController implements View {
 
     private final NoticeService service;
 

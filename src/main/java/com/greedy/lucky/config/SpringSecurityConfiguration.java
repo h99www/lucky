@@ -39,6 +39,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        System.out.println("test1");System.out.println("test1");System.out.println("test1");System.out.println("test1");System.out.println("test1");System.out.println("test1");
         http.csrf().disable()
                     .authorizeHttpRequests()
                     .anyRequest().permitAll()

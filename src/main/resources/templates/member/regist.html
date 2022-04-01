@@ -4,10 +4,9 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script th:src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 <body>
-<div th:include="/common/menubar.html"></div>
 <!-- 회원 가입 양식 outer 영역 -->
 <div class="outer outer-member-insert">
 	<br>
@@ -23,12 +22,12 @@
 			</tr>
 			<tr>
 				<td>* 비밀번호</td>
-				<td><input type="password" maxlength="13" id="memPwd1" name="memberPwd" required></td>
+				<td><input type="password" maxlength="13" id="memberPwd" name="memberPwd" required></td>
 				<td></td>
 			</tr>
 			<tr>
 				<td>* 비밀번호확인</td>
-				<td><input type="password" maxlength="13" id="memPwd2" name="memberPwd2"></td>
+				<td><input type="password" maxlength="13" id="memberPwd2" name="memberPwd2"></td>
 				<td><input type="hidden" name="checkPwd" id="checkPwd" value="false"></td>
 				<td></td>
 			</tr>
@@ -70,6 +69,7 @@
 			<input type="reset" value="메인으로"  class="btn btn-yg" id="goMain">
 			<input type="submit" value="가입하기" class="btn btn-or">
 		</div>
+		<input type="hidden" name="address">
 	</form>
 </div>	<!-- outer end -->
 
@@ -77,10 +77,32 @@
 <!-- key 발급 없이 무제한으로 이용이 가능하다. -->
 <!-- 아래 스크립트를 불러온 후 사용해야 한다. -->
 <!-- 참고 링크 : http://postcode.map.daum.net/guide -->
-<script th:inline="javascript">
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
     const $searchZipCode = document.getElementById("searchZipCode");
     const $goMain = document.getElementById("goMain");
 
+    $("#address2").change(function() {
+        const $zipCode = $("#zipCode").val();
+        const $address1 = $("#address1").val();
+        const $address2 = $("#address2").val();
+        
+        console.log($zipCode);
+        console.log($address1);
+        console.log($address2);
+        $address = $zipCode + "$" + $address1 + "$" + $address2;
+        $("#address").val("$address");
+    });
+    
+    $("#memberPwd2").focusout(function() {
+       const $pwd = $("#memberPwd").val();
+       const $pwd2 = $("#memberPwd2").val();
+       
+       if($pwd != $pwd2) {
+           alert("비밀번호가 일치하지 않습니다")
+           $("#memberPwd2").val("");
+       }
+    });
     $searchZipCode.onclick = function() {
 
         //다음 우편번호 검색 창을 오픈하면서 동작할 콜백 메소드를 포함한 객체를 매개변수로 전달한다.
@@ -97,34 +119,28 @@
     $goMain.onclick = function() {
         location.href = "/";
     }
-</script>
-<script th:inline="javascript">
+    
     $("#duplicationCheck").click(function() {
         const memberId = prompt("아이디를 입력하세요 .");
+        $url = "/member/duplication/" + memberId;
         $.ajax({
-            url: "/member/duplication" ,
+            url: $url ,
             type: "get",
-            data: { memberId },
-            success: function(data, textStatus, xhr) {
-
+            success: function(data) {
                 if(data == "중복"){
                     alert("중복입니다");
-// 					 	$("#memberId").val("");
                 } else{
-                    alert(data + "사용가능한 ID입니다 ");
                     $("#memberId").val(memberId);
-
                 }
-
                 this.value = "";
             },
             error: function(xhr, status, error) {
-                console.log(xhr);
+                alert("fail to connect...");
             }
         });
     });
-    $("#memPwd2").change(function () {
-        if($("#memPwd1").val() != $(this).val()) {
+    $("#memberPwd2").change(function () {
+        if($("#memberPwd").val() != $(this).val()) {
             $("checkPwd").val("false");
         } else {
             $("checkPwd").val("true");

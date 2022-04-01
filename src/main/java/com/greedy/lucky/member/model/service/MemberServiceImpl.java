@@ -21,4 +21,47 @@ public class MemberServiceImpl implements MemberService{
 
         return memberDAO.findMemberById(memberId);
     }
+
+    @Override
+    public boolean registMember(MemberDTO registMember) {
+
+        return memberDAO.registMember(registMember);
+    }
+
+    @Override
+    public boolean modifyMember(MemberDTO member) {
+
+        return memberDAO.modifyMember(member);
+    }
+
+    @Override
+    public boolean duplicationCheckId(String memberId) {
+
+        return memberDAO.duplicatonCheckId(memberId) != null;
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

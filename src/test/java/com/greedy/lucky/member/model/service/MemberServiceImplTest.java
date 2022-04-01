@@ -4,6 +4,7 @@ import com.greedy.lucky.config.LuckyApplication;
 import com.greedy.lucky.config.MybatisConfig;
 import com.greedy.lucky.config.SpringSecurityConfiguration;
 import com.greedy.lucky.member.model.dto.MemberDTO;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,5 +33,19 @@ class MemberServiceImplTest {
         assertNotNull(member);
     }
 
+    @Test
+    @DisplayName("아이디 중복 확인 테스트")
+    public void duplicationCheckId_test() {
+
+        boolean result1 = service.duplicationCheckId("admin");
+        boolean result2 = service.duplicationCheckId("h9w");
+        boolean result3 = service.duplicationCheckId("h9ww");
+
+        assertTrue(result1);
+        assertTrue(result2);
+        assertFalse(result3);
+
+
+    }
 
 }
