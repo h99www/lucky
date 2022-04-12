@@ -35,7 +35,7 @@ public class NoticeController implements View {
 
         mv.addObject("listInfo", listInfo);
         mv.addObject("selectCriteria", listInfo.getSelectCriteria());
-        mv.addObject("intent", "/notice/list");
+        mv.addObject("intent", NOTICE_INTENT);
         mv.setViewName(NOTICE_LIST_VIEW);
 
         return mv;
@@ -67,7 +67,7 @@ public class NoticeController implements View {
 
         mv.addObject("notice", notice);
         mv.setViewName(NOTICE_MODIFY_VIEW);
-        System.out.println("get");System.out.println("get");System.out.println("get");System.out.println("get");
+
         return mv;
     }
 
@@ -85,7 +85,7 @@ public class NoticeController implements View {
     }
 
     @PostMapping("/regist")
-    public String registNotice(@ModelAttribute NoticeDTO notice, @ModelAttribute MemberDTO member) {
+    public String registNotice(NoticeDTO notice, MemberDTO member) {
 
         notice.setMember(member);
         /* notice regist  */

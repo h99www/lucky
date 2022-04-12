@@ -13,6 +13,7 @@ public interface View {
     public static final String NOTICE_MODIFY_VIEW = "/notice/modify";
     public static final String REDIRECT_NOTICE_LIST_VIEW = REDIRECT +  NOTICE_LIST_VIEW;
     public static final String REDIRECT_NOTICE_DETAIL_VIEW = REDIRECT + NOTICE_DETAIL_VIEW + "/";
+    public static final String NOTICE_INTENT = "/notice/list";
 
 
 }

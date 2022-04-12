@@ -1,18 +1,14 @@
 package com.greedy.lucky.member.controller;
 
 import com.greedy.lucky.Authentication.model.dto.CustomUser;
-import com.greedy.lucky.common.view.View;
 import com.greedy.lucky.member.model.dto.MemberDTO;
 import com.greedy.lucky.member.model.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -48,15 +44,30 @@ public class MemberController {
     }
 
     @GetMapping("/modify")
-    public ModelAndView sendModifyView() {
+    public ModelAndView sendModifyView(ModelAndView mv, @AuthenticationPrincipal CustomUser user) {
+        String[] memberAddress = {"","",""};
+        MemberDTO member = service.findMemberById(user.getUsername());
 
-        return new ModelAndView("/member/modifyForm");
+        if(member.getAddress() != null) {
+            System.out.println("member.getAddress() : " + member.getAddress());
+            memberAddress = member.getAddress().split("\\$");
+        }
+
+        mv.addObject("member", member);
+        mv.addObject("memberAddress", memberAddress);
+
+        mv.setViewName("/member/modify");
+
+        return mv;
     }
     @PostMapping("/modify")
     public ModelAndView modifyMember() {
 
-        return new ModelAndView("/member/modifyForm");
+        return new ModelAndView("modify");
     }
+    @GetMapping("/modifyPwd")
+    public void sendModifyPwd() {}
+
 
     @GetMapping(value = "/duplication/{memberId}", produces="text/plain; charset=UTF-8")
     @ResponseBody
